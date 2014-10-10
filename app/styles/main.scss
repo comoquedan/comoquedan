@@ -16,7 +16,7 @@ body {
   padding-bottom: 20px;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
+/* Everything but the listaPartidos gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
@@ -49,7 +49,7 @@ body {
 }
 
 /* Main marketing message and sign up button */
-.jumbotron {
+.listaPartidos {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
 
@@ -85,8 +85,8 @@ body {
   .header {
     margin-bottom: 30px;
   }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
+  /* Remove the bottom border on the listaPartidos for visual effect */
+  .listaPartidos {
     border-bottom: 0;
   }
 }

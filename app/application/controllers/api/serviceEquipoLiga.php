@@ -16,22 +16,22 @@
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 require APPPATH.'/libraries/REST_Controller.php';
 
-class ServiceUsuario extends REST_Controller
+class ServiceEquipoLiga extends REST_Controller
 {
     function user_get()
     {
         $query = "";
-        if($this->get('idUsuario'))
+        if($this->get('idEquipoLiga'))
         {
-            if($this->checkExist($this->get('idUsuario'))){
-              $query = "SELECT * FROM tbl_Usuario where var_Id_Usuario ='".$this->get('idUsuario')."';";
+            if($this->checkExist($this->get('idEquipoLiga'))){
+              $query = "SELECT * FROM tbl_Equipo_Liga where int_Id_Equipo_Liga ='".$this->get('idEquipoLiga')."';";
             }
             else{
-                $this->response(array('error' => 'El usuario no existe'), 404);
+                $this->response(array('error' => 'El Equipo_Liga no existe'), 404);
             }
         }
         else{
-            $query = "SELECT * FROM tbl_Usuario;";
+            $query = "SELECT * FROM tbl_Equipo_Liga;";
         }
 
         $queryRes = $this->db->query($query);
@@ -41,9 +41,9 @@ class ServiceUsuario extends REST_Controller
         {
             foreach ($queryRes->result() as $row)
             {
-               $user['id'] = $row->var_Id_Usuario; // call attributes ID
-               $user['password'] = $row->var_Password; // call attributes Password
-               $user['tipo'] = $row->var_Tipo_Usuario // call attributes tipoUsuario
+               $user['id'] = $row->int_Id_Equipo_Liga; // call attributes ID
+               $user['id_Equipo'] = $row->int_Id_Equipo; // call attributes Id_Equipo
+               $user['id_Liga'] = $row->int_Id_Liga; // call attributes id Liga
                array_push($users,$user);
             } 
         }
@@ -55,7 +55,7 @@ class ServiceUsuario extends REST_Controller
 
         else
         {
-            $this->response(array('error' => 'User could not be found'), 404);
+            $this->response(array('error' => 'Equipo_Liga could not be found'), 404);
         }
     }
     
@@ -64,22 +64,16 @@ class ServiceUsuario extends REST_Controller
         $query = "";
         $info = json_decode(file_get_contents('php://input'), true);
         $data = array(
-                   'var_Id_Usuario' => $info['idUsuario'],
-                   'var_Password' => $info['password'],
-                   'var_Tipo_Usuario' => $info['tipo']
+                   'int_Id_Equipo' => $info['id_Equipo'],
+                   'int_Id_Liga' => $info['id_Liga']
                 );
         switch ($info['action']) {
             case 'add':
-                if(!$this->checkExist($info['idUsuario'])){
-                    $query = $this->db->insert('tbl_Usuario', $data); 
-                }
-                else{
-                    $query = "error ya existe";
-                }
+                    $query = $this->db->insert('tbl_Equipo_Liga', $data); 
                 break;
             case 'update':
-                if($this->checkExist($info['idUsuario'])){
-                    $query = $this->db->update('tbl_Usuario', $data, array('var_Id_Usuario' => $data['var_Id_Usuario'])); 
+                if($this->checkExist($info['idEquipoLiga'])){
+                    $query = $this->db->update('tbl_Equipo_Liga', $data, array('int_Id_Equipo_Liga' => $info['idEquipoLiga'])); 
                 }
                 else{
                     $query = "error no existe";
@@ -98,12 +92,12 @@ class ServiceUsuario extends REST_Controller
     {
         $query = "";
         $info = $this->post('info');
-        $query = $this->db->delete('tbl_Usuario', array('var_Id_Usuario' => $info->idUsuario)); 
+        $query = $this->db->delete('tbl_Equipo_Liga', array('int_Id_Equipo_Liga' => $info->idEquipo_Liga)); 
         $this->response($query, 200); // 200 being the HTTP response code
     }
 
     function checkExist($id){
-        $query = $this->db->get_where('tbl_Usuario', array('var_Id_Usuario' => $id));
+        $query = $this->db->get_where('tbl_Equipo_Liga', array('int_Id_Equipo_Liga' => $id));
         if($query->num_rows()>0)
             return true;
         return false;

@@ -16,22 +16,22 @@
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
 require APPPATH.'/libraries/REST_Controller.php';
 
-class ServiceUsuario extends REST_Controller
+class ServiceUsuarioPartido extends REST_Controller
 {
     function user_get()
     {
         $query = "";
-        if($this->get('idUsuario'))
+        if($this->get('idUsuarioPartido'))
         {
-            if($this->checkExist($this->get('idUsuario'))){
-              $query = "SELECT * FROM tbl_Usuario where var_Id_Usuario ='".$this->get('idUsuario')."';";
+            if($this->checkExist($this->get('idUsuarioPartido'))){
+              $query = "SELECT * FROM tbl_Usuario_Partido where int_Id_Usuario_Partido ='".$this->get('idUsuarioPartido')."';";
             }
             else{
-                $this->response(array('error' => 'El usuario no existe'), 404);
+                $this->response(array('error' => 'El Usuario_Partido no existe'), 404);
             }
         }
         else{
-            $query = "SELECT * FROM tbl_Usuario;";
+            $query = "SELECT * FROM tbl_Usuario_Partido;";
         }
 
         $queryRes = $this->db->query($query);
@@ -41,9 +41,11 @@ class ServiceUsuario extends REST_Controller
         {
             foreach ($queryRes->result() as $row)
             {
-               $user['id'] = $row->var_Id_Usuario; // call attributes ID
-               $user['password'] = $row->var_Password; // call attributes Password
-               $user['tipo'] = $row->var_Tipo_Usuario // call attributes tipoUsuario
+               $user['id'] = $row->int_Id_Usuario_Partido; // call attributes ID
+               $user['id_Usuario'] = $row->int_Id_Usuario; // call attributes Id_Usuario
+               $user['id_Partido'] = $row->int_Id_Partido; // call attributes Id_Partido
+               $user['goles_Equipo1'] = $row->int_Goles_Equipo1; // call attributes goles_Usuario
+               $user['goles_Equipo2'] = $row->int_Goles_Equipo2; // call attributes goles_Partido
                array_push($users,$user);
             } 
         }
@@ -55,7 +57,7 @@ class ServiceUsuario extends REST_Controller
 
         else
         {
-            $this->response(array('error' => 'User could not be found'), 404);
+            $this->response(array('error' => 'Usuario_Partido could not be found'), 404);
         }
     }
     
@@ -64,22 +66,18 @@ class ServiceUsuario extends REST_Controller
         $query = "";
         $info = json_decode(file_get_contents('php://input'), true);
         $data = array(
-                   'var_Id_Usuario' => $info['idUsuario'],
-                   'var_Password' => $info['password'],
-                   'var_Tipo_Usuario' => $info['tipo']
+                   'int_Id_Usuario' => $info['id_Usuario'],
+                   'int_Id_Partido' => $info['id_Partido'],
+                   'int_Goles_Equipo1' => $info['goles_Equipo1'],
+                   'int_Goles_Equipo2' => $info['goles_Equipo2']
                 );
         switch ($info['action']) {
             case 'add':
-                if(!$this->checkExist($info['idUsuario'])){
-                    $query = $this->db->insert('tbl_Usuario', $data); 
-                }
-                else{
-                    $query = "error ya existe";
-                }
+                    $query = $this->db->insert('tbl_Usuario_Partido', $data); 
                 break;
             case 'update':
-                if($this->checkExist($info['idUsuario'])){
-                    $query = $this->db->update('tbl_Usuario', $data, array('var_Id_Usuario' => $data['var_Id_Usuario'])); 
+                if($this->checkExist($info['idUsuarioPartido'])){
+                    $query = $this->db->update('tbl_Usuario_Partido', $data, array('int_Id_Usuario_Partido' => $info['idUsuarioPartido'])); 
                 }
                 else{
                     $query = "error no existe";
@@ -98,12 +96,12 @@ class ServiceUsuario extends REST_Controller
     {
         $query = "";
         $info = $this->post('info');
-        $query = $this->db->delete('tbl_Usuario', array('var_Id_Usuario' => $info->idUsuario)); 
+        $query = $this->db->delete('tbl_Usuario_Partido', array('int_Id_Usuario_Partido' => $info->idUsuario_Partido)); 
         $this->response($query, 200); // 200 being the HTTP response code
     }
 
     function checkExist($id){
-        $query = $this->db->get_where('tbl_Usuario', array('var_Id_Usuario' => $id));
+        $query = $this->db->get_where('tbl_Usuario_Partido', array('int_Id_Usuario_Partido' => $id));
         if($query->num_rows()>0)
             return true;
         return false;

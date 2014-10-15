@@ -15,19 +15,95 @@
     <!-- endbuild -->
   </head>
   <body ng-app="cuantoQuedaApp">
+    <script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log(response);
+    if (response.status === 'connected') {
+      $('.loginPopUp').hide();
+      $('.popupbg').hide();
+      showElements();
+    } else if (response.status === 'not_authorized') {
+      showLogPopUp();
+    } else {
+      showLogPopUp();
+    }
+  }
+  function showLogPopUp(){
+    $('.loginPopUp').show();
+    $('.popupbg').show();
+  }
+  function showElements(){
+    FB.api('/me', function(response) {
+      console.log(response);
+      console.log('Successful login for: ' + response.name);
+       var imgUrl = "https://graph.facebook.com/"+response.id+"/picture";
+       document.getElementById("userImg").src= imgUrl;
+    });
+  }
+
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '295528663973830',
+      cookie     : true,  // enable cookies to allow the server to access 
+                          // the session
+      xfbml      : true,  // parse social plugins on this page
+      version    : 'v2.1' // use version 2.1
+    });
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <div class='loginPopUp'>
+        <h2 class="title">Seleccione la opción para ingresar</h2>
+        <h3 class="title">Ingresar con Facebook</h3>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+        <h3 class="title">Ingresar con correo</h3>
+        <p class="input">
+          <label for="userId">Ingrese su Id</label>
+          <input type="text" ng-model="user.id">
+        </p>
+        <p class="input">
+          <label for="userPassword">Ingrese su clave</label>
+          <input type="text" ng-model="user.password">
+        </p>
+        <input type='button' ng-click='addUser()' value="Ingresar">
+    </div>
+    <div class="popupbg">
+      
+    </div>
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Partidos</a></li>
           <li><a ng-href="#/about">Tabla</a></li>
           <li><a ng-href="#">Perfil</a></li>
+          <li><a ng-href="#"><img id="userImg"></a></li>
         </ul>
         <h3 class="text-muted">¿Como Quedan?</h3>
+        
       </div>
 
       <div ng-view=""></div>
@@ -84,7 +160,13 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/partidos.js"></script>
+        <script src="scripts/directives/testing.js"></script>
+        <script src="scripts/directives/onlydigits.js"></script>
+        <script src="scripts/services/servicehandler.js"></script>
+        <script src="scripts/services/bakecookie.js"></script>
+        <script src="scripts/services/parameterbyname.js"></script>
+        <script src="scripts/controllers/usuarios.js"></script>
         <!-- endbuild -->
 </body>
 </html>

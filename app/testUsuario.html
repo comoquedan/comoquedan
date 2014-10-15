@@ -41,7 +41,7 @@
             		$.ajax({
 					    url: '/api.php/api/'+action+'/format/json',
 					    type: 'POST',
-					    data: JSON.stringify({ action: "add", idUsuario: "ronald", password: "root" }),
+					    data: JSON.stringify({ action: "add", idUsuario: "ronald", password: "root" , tipo = 1}),
                         contentType: "application/json",
 					    success: function(result) {
 					        console.log(result);

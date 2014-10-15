@@ -1,0 +1,25 @@
+.listaPartidos{
+ ul{
+  list-style-type:none;
+  padding:0;
+  li{
+   margin:10px 0;
+   div{
+    display:inline-block;
+    margin:0 5px;
+   }
+   .date{
+    width:50px;
+    font-size:9px;
+   }
+   .team{
+    .name{
+     width:150px;
+    }
+    .score input{
+     width:25px;
+    }
+   }
+  }
+ }
+}

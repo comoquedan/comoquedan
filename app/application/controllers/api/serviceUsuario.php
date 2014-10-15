@@ -43,7 +43,7 @@ class ServiceUsuario extends REST_Controller
             {
                $user['id'] = $row->var_Id_Usuario; // call attributes ID
                $user['password'] = $row->var_Password; // call attributes Password
-               $user['tipo'] = $row->var_Tipo_Usuario // call attributes tipoUsuario
+               $user['tipo'] = $row->var_Tipo_Usuario; // call attributes tipoUsuario
                array_push($users,$user);
             } 
         }
@@ -64,11 +64,11 @@ class ServiceUsuario extends REST_Controller
         $query = "";
         $info = json_decode(file_get_contents('php://input'), true);
         $data = array(
-                   'var_Id_Usuario' => $info['idUsuario'],
-                   'var_Password' => $info['password'],
-                   'var_Tipo_Usuario' => $info['tipo']
+                   'var_Id_Usuario' => $info['data']['idUsuario'],
+                   'var_Password' => $info['data']['password'],
+                   'var_Tipo_Usuario' => $info['data']['tipo']
                 );
-        switch ($info['action']) {
+        switch ($info['data']['action']) {
             case 'add':
                 if(!$this->checkExist($info['idUsuario'])){
                     $query = $this->db->insert('tbl_Usuario', $data); 
@@ -78,7 +78,7 @@ class ServiceUsuario extends REST_Controller
                 }
                 break;
             case 'update':
-                if($this->checkExist($info['idUsuario'])){
+                if($this->checkExist($info['data']['idUsuario'])){
                     $query = $this->db->update('tbl_Usuario', $data, array('var_Id_Usuario' => $data['var_Id_Usuario'])); 
                 }
                 else{
@@ -97,8 +97,8 @@ class ServiceUsuario extends REST_Controller
     function user_delete()
     {
         $query = "";
-        $info = $this->post('info');
-        $query = $this->db->delete('tbl_Usuario', array('var_Id_Usuario' => $info->idUsuario)); 
+        $info['data'] = $this->post('info');
+        $query = $this->db->delete('tbl_Usuario', array('var_Id_Usuario' => $info['data']->idUsuario)); 
         $this->response($query, 200); // 200 being the HTTP response code
     }
 

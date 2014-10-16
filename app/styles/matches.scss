@@ -1,0 +1,25 @@
+
+ul{
+	list-style-type: none;
+	.date {
+		font-size: 9px;
+		text-transform: uppercase;
+		line-height: 15px;
+		width: 50px;
+		padding-right: 0;
+	}
+	.match{
+		padding: 5px;
+		div{
+			display: inline-block;
+			margin: 0 5px
+		}
+		.name{
+			min-width: 150px;
+		}
+		.score input{
+			width: 25px;
+			text-align: center;
+		}
+	}
+}

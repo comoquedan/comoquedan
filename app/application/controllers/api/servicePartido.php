@@ -31,7 +31,18 @@ class ServicePartido extends REST_Controller
             }
         }
         else{
-            $query = "SELECT * FROM tbl_Partido;";
+            if($this->get('fechaPartido')){
+                if($this->checkExist($this->get('fechaPartido'))){
+                  $dateLimit=$this->get('fechaPartido')+7;
+                  $query = "SELECT * FROM tbl_Partido where datetime_Fecha <'".$dateLimit."' and datetime_Fecha >='".$this->get('fechaPartido')."';";
+                }
+                else{
+                    $this->response(array('error' => 'No hay Partidos en esta fecha'), 404);
+                }
+            }
+            else{
+                $query = "SELECT * FROM tbl_Partido;";
+            }
         }
 
         $queryRes = $this->db->query($query);

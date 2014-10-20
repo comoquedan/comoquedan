@@ -2,37 +2,38 @@
   <h1>Partidos de la siguiente jornada</h1>
   <div>
     <ul>
-      <li class="match">
+      <li class="match" ng-repeat="match in matches">
         <div class="date">
-          <span>9 Dic '13<br>8:00 PM</span>
+          <span>
+            {{match.fecha}}</span>
         </div>
         <div class="team home">
           <div class="name">
-            Alajuelense
+            {{match.id_Equipo1}}
           </div>
           <div class="banner">
             <img src="images/lda.png">
           </div>
           <div class="score">
-            <input type="text" min="0" max="99" value="2">
+            <input type="text" min="0" max="99" value="
+            {{match.goles_Equipo1}}">
           </div>
         </div>
         <div class="vs"> vs </div>
         <div class="team away">
           <div class="score">
-            <input type="text" min="0" max="99" value="0">
+            <input type="text" min="0" max="99" value="
+            {{match.goles_Equipo2}}">
           </div>
           <div class="banner">
             <img src="images/sap.png">
-          </div><div class="name">Saprissa</div>
+          </div><div class="name">
+            {{match.id_Equipo2}}</div>
         </div>
         <div class="status-text">4</div>
         <div class="status">
           
         </div>
-      </li>
-      <li class="match">
-        <div class="date">9 Dic '13<br>8:00 PM</div><div class="team home"><div class="name">Herediano</div><div class="banner"><img src="images/csh.png"></div><div class="score"><input type="text" min="0" max="99" value="2"></div></div><div class="vs"> vs </div><div class="team away"><div class="score"><input type="text" min="0" max="99" value="0"></div><div class="banner"><img src="images/car.png"></div><div class="name">Cartagines</div></div><div class="status-text">4</div><div class="status"></div>
       </li>
     </ul>
   </div>

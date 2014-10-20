@@ -1,11 +1,11 @@
 <div class="listaPartidos">
-  <h1>Partidos de la siguiente jornada</h1>
-  <div>
+
+  <div ng-repeat="league in leagueMatches" >
+  <h1>{{league.name}}</h1>
     <ul>
-      <li class="match" ng-repeat="match in matches">
+      <li class="match" ng-repeat="match in league.matches">
         <div class="date">
-          <span>
-            {{match.fecha}}</span>
+          <span>{{match.fecha}}</span>
         </div>
         <div class="team home">
           <div class="name">
@@ -15,15 +15,15 @@
             <img src="images/lda.png">
           </div>
           <div class="score">
-            <input type="text" min="0" max="99" value="
-            {{match.goles_Equipo1}}">
+            <input type="text" min="0" max="99" ng-model="
+            match.goles_Equipo1">
           </div>
         </div>
         <div class="vs"> vs </div>
         <div class="team away">
           <div class="score">
-            <input type="text" min="0" max="99" value="
-            {{match.goles_Equipo2}}">
+            <input type="text" min="0" max="99" ng-model="
+            match.goles_Equipo2">
           </div>
           <div class="banner">
             <img src="images/sap.png">
@@ -31,9 +31,7 @@
             {{match.id_Equipo2}}</div>
         </div>
         <div class="status-text">4</div>
-        <div class="status">
-          
-        </div>
+        <div class="status"></div>
       </li>
     </ul>
   </div>

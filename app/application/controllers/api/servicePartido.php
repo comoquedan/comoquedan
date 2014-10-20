@@ -32,13 +32,14 @@ class ServicePartido extends REST_Controller
         }
         else{
             if($this->get('fechaPartido')){
-                if($this->checkExist($this->get('fechaPartido'))){
-                  $dateLimit=$this->get('fechaPartido')+7;
-                  $query = "SELECT * FROM tbl_Partido where datetime_Fecha <'".$dateLimit."' and datetime_Fecha >='".$this->get('fechaPartido')."';";
-                }
-                else{
-                    $this->response(array('error' => 'No hay Partidos en esta fecha'), 404);
-                }
+                  $getDate = date_create_from_format('d/M/Y H:i:s', $this->get('fechaPartido'));
+                  $dateLimit = $getDate;
+                  $dateLimit->add(new DateInterval('d7'));
+                  $query = "SELECT * FROM tbl_Partido where `datetime_Fecha` BETWEEN '".$getDate."' and '".$dateLimit."'";
+                  if($this->get('idLiga')){
+                      $query+= " and `int_Id_Liga` = '".$this->get('idLiga')."'";
+                  }
+                  $query+= ";";
             }
             else{
                 $query = "SELECT * FROM tbl_Partido;";

@@ -9,15 +9,18 @@
  */
 angular.module('cuantoQuedaApp')
   .factory('ServiceHandler', ['$http',function($http){
+    var domain = 'http://www.comoquedan.com'; //''
     return {
         post : function(type,params,action){
-            return $http.post('/api.php/api/'+type+'/user/format/json', {
+            console.log(params);
+            return $http.post(domain+'/api.php/api/'+type+'/user/format/json', {
                 action : action || "",
                 data : params || ""
             });
         },
         get : function(type,param,action){
-            return $http.get('/api.php/api/'+type+'/user/format/json', {
+            console.log(param);
+            return $http.get(domain+'/api.php/api/'+type+'/user/format/json', {
                 params: param
             });
         }

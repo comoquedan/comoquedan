@@ -41,10 +41,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'comoquedan_01';
+$db['default']['hostname'] = 'comoquedancom.ipagemysql.com'; /*'localhost';*/
+$db['default']['username'] = 'comoquedan';
+$db['default']['password'] = 'Cuanto14!';
+$db['default']['database'] = 'comoquedan_02';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
